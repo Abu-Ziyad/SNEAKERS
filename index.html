@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exclusive Sneakers - متوافق مع جميع الشاشات</title>
+    
+    <!-- روابط خارجية للخطوط -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&family=Cairo:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
+    
+    <!-- CSS Styles -->
+    <style>
+        /* CSS Variables */
+        :root {
+            --primary-color: #00e0e0;
+            --dark-bg: #0d292a;
+            --light-text: #ffffff;
+            --dark-text: #000000;
+        }
+
+        /* General & Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* --- Header & Navigation --- */
+        header {
+            padding: 20px 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header .logo {
+            font-family: 'Anton', sans-serif;
+            font-size: 2rem;
+            color: var(--light-text);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        header nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        header nav a {
+            color: var(--light-text);
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.3s ease;
+            padding-bottom: 5px;
+            border-bottom: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        header nav a:hover, header nav a.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+        
+        .hamburger-menu {
+            display: none; /* Hidden on desktop */
+            cursor: pointer;
+            z-index: 101;
+        }
+
+        .hamburger-menu .bar {
+            width: 25px;
+            height: 3px;
+            background-color: var(--light-text);
+            margin: 5px 0;
+            transition: 0.4s;
+        }
+        
+        /* Page Management */
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding-top: 120px; /* Space for the header */
+            padding-bottom: 40px;
+        }
+        .page.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Home Page Section (#home) */
+        #home {
+            text-align: center;
+            background: radial-gradient(circle, rgba(14, 88, 89, 0.8) 0%, rgba(3, 30, 31, 1) 70%, #000 100%);
+            overflow: hidden;
+            padding-top: 0; /* No padding top for hero section */
+        }
+        
+        #home .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        #home .exclusive {
+            font-family: 'Pacifico', cursive;
+            font-size: 4rem;
+            color: var(--primary-color);
+            text-shadow: 0 0 15px rgba(0, 224, 224, 0.5);
+        }
+
+        #home .sneakers {
+            font-family: 'Anton', sans-serif;
+            font-size: 6rem;
+            line-height: 1;
+        }
+
+        .shoe-container {
+            perspective: 1000px;
+        }
+
+        .hero-shoe {
+            max-width: 600px;
+            width: 80%;
+            margin-top: -50px;
+            filter: drop-shadow(0 25px 35px rgba(0, 0, 0, 0.6));
+            transition: transform 0.2s ease-out;
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: 20%;
+            left: 10%;
+            border: 2px solid #fff;
+            padding: 10px 20px;
+            border-radius: 50% / 40%;
+            transform: rotate(-15deg);
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        .discount-badge span {
+            font-size: 0.8rem;
+            display: block;
+        }
+
+        .hero-cta {
+            margin-top: -30px;
+        }
+        
+        /* General Page Styles */
+        .page-title {
+            font-family: 'Anton', sans-serif;
+            font-size: 3.5rem;
+            text-align: center;
+            margin-bottom: 50px;
+            color: var(--primary-color);
+        }
+
+        .text-page {
+            max-width: 800px;
+            text-align: center;
+            line-height: 1.8;
+        }
+
+        .text-page p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            width: 100%;
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 224, 224, 0.2);
+        }
+
+        .product-card img {
+            max-width: 100%;
+            height: 180px;
+            object-fit: contain;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
+        }
+
+        .product-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        .product-card .price {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        /* Contact Form */
+        .contact-form-container {
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        #contactForm input, #contactForm textarea {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            color: var(--light-text);
+            font-family: 'Cairo', sans-serif;
+            font-size: 1rem;
+        }
+        #contactForm input::placeholder, #contactForm textarea::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Buttons */
+        .cta-button {
+            background-color: var(--light-text);
+            color: var(--dark-text);
+            padding: 15px 40px;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 30px;
+            display: inline-block;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 224, 224, 0.3);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 224, 224, 0.5);
+        }
+        .cta-button-small {
+            padding: 10px 25px;
+            background-color: var(--primary-color);
+            color: var(--dark-text);
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 30px;
+            transition: background-color 0.3s;
+        }
+        .cta-button-small:hover {
+            background-color: var(--light-text);
+        }
+
+        /* =================================== */
+        /* ==   RESPONSIVE DESIGN STYLES    == */
+        /* =================================== */
+        
+        @media (max-width: 768px) {
+            /* --- Mobile Navigation --- */
+            .hamburger-menu {
+                display: block;
+            }
+
+            header nav {
+                position: fixed;
+                top: 0;
+                right: -100%; /* Start off-screen */
+                width: 100%;
+                height: 100vh;
+                background-color: var(--dark-bg);
+                transition: right 0.5s ease-in-out;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            header nav.active {
+                right: 0; /* Slide in */
+            }
+
+            header nav ul {
+                flex-direction: column;
+                text-align: center;
+                gap: 50px;
+            }
+
+            header nav a {
+                font-size: 1.5rem;
+            }
+
+            /* --- Font & Layout Adjustments --- */
+            #home .exclusive { font-size: 2.5rem; }
+            #home .sneakers { font-size: 4rem; }
+            .hero-shoe { margin-top: -20px; }
+            .discount-badge {
+                font-size: 1.2rem;
+                padding: 8px 12px;
+                top: 15%;
+            }
+
+            .page-title {
+                font-size: 2.5rem;
+                margin-bottom: 30px;
+            }
+            .page {
+                padding-top: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <a href="#home" class="logo nav-link">SNEAKERS</a>
+            <nav id="main-nav">
+                <ul>
+                    <li><a href="#home" class="nav-link active">الرئيسية</a></li>
+                    <li><a href="#products" class="nav-link">المنتجات</a></li>
+                    <li><a href="#about" class="nav-link">من نحن</a></li>
+                    <li><a href="#contact" class="nav-link">اتصل بنا</a></li>
+                </ul>
+            </nav>
+            <div class="hamburger-menu" id="hamburger-menu">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Home Page Section -->
+        <section id="home" class="page active">
+            <div class="container">
+                <div class="discount-badge">
+                    <span>UP TO</span>
+                    50%
+                    <span>OFF</span>
+                </div>
+                <div class="text-content">
+                    <h1>
+                        <span class="exclusive">Exclusive</span>
+                        <span class="sneakers">SNEAKERS</span>
+                    </h1>
+                </div>
+                <div class="shoe-container">
+                    <img src="Sneaker2.png" alt="Exclusive Sneakers" class="hero-shoe">
+                </div>
+                <div class="hero-cta">
+                    <a href="#products" class="cta-button nav-link">تصفح الآن</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Page Section -->
+        <section id="products" class="page">
+            <div class="container">
+                <h1 class="page-title">مجموعتنا الحصرية</h1>
+                <div class="product-grid">
+                    <div class="product-card"><img src="Sneaker2.png" alt="Sneaker 1"><h3>Air Jordan "Teal"</h3><p class="price">750 ر.س</p><a href="#" class="cta-button-small">أضف للسلة</a></div>
+                    <div class="product-card"><img src="Sneaker1.png" alt="Sneaker 2"><h3>Classic Runner</h3><p class="price">450 ر.س</p><a href="#" class="cta-button-small">أضف للسلة</a></div>
+                    <div class="product-card"><img src="Sneaker3.png" alt="Sneaker 3"><h3>Street Style High-Top</h3><p class="price">600 ر.س</p><a href="#" class="cta-button-small">أضف للسلة</a></div>
+                    <div class="product-card"><img src="Sneaker4.png" alt="Sneaker 4"><h3>Urban Explorer</h3><p class="price">520 ر.س</p><a href="#" class="cta-button-small">أضف للسلة</a></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Page Section -->
+        <section id="about" class="page">
+            <div class="container text-page">
+                <h1 class="page-title">قصتنا</h1>
+                <p>نحن في "SNEAKERS" نؤمن بأن الحذاء ليس مجرد قطعة لإكمال مظهرك، بل هو تعبير عن شخصيتك. بدأت رحلتنا من شغف عميق بثقافة الأحذية الرياضية، بهدف توفير أحدث وأكثر التصاميم تميزًا لعشاق الأحذية في كل مكان.</p>
+                <p>نحن نسعى جاهدين لتقديم تجربة تسوق فريدة من نوعها، تجمع بين الجودة العالية، التصاميم الحصرية، وخدمة العملاء الاستثنائية. كل زوج من الأحذية في مجموعتنا تم اختياره بعناية فائقة لضمان حصولك على الأفضل.</p>
+            </div>
+        </section>
+
+        <!-- Contact Page Section -->
+        <section id="contact" class="page">
+            <div class="container">
+                <h1 class="page-title">تواصل معنا</h1>
+                <div class="contact-form-container">
+                    <form id="contactForm">
+                        <input type="text" name="name" placeholder="الاسم الكامل" required>
+                        <input type="email" name="email" placeholder="البريد الإلكتروني" required>
+                        <textarea name="message" rows="6" placeholder="رسالتك" required></textarea>
+                        <button type="submit" class="cta-button">إرسال الرسالة</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- JavaScript Code -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            const navLinks = document.querySelectorAll('.nav-link');
+            const pages = document.querySelectorAll('.page');
+            const mainNavLinks = document.querySelectorAll('header nav a');
+            const navMenu = document.getElementById('main-nav');
+            const hamburger = document.getElementById('hamburger-menu');
+
+            // --- Hamburger Menu Logic ---
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+            });
+
+            function showPage(pageId) {
+                // Hide all pages
+                pages.forEach(page => page.classList.remove('active'));
+
+                // Show the target page
+                const targetPage = document.getElementById(pageId);
+                if (targetPage) targetPage.classList.add('active');
+
+                // Update active state in the main navigation
+                mainNavLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${pageId}`) {
+                        link.classList.add('active');
+                    }
+                });
+                
+                // Close mobile menu after navigation
+                navMenu.classList.remove('active');
+            }
+
+            // --- SPA Navigation Logic ---
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const pageId = link.getAttribute('href').substring(1); // Remove '#'
+                    showPage(pageId);
+                    window.scrollTo(0, 0); // Scroll to top of the page on change
+                });
+            });
+
+            // --- Parallax Effect (for Home Page on non-touch devices) ---
+            const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+            if (!isTouchDevice) {
+                const homePage = document.getElementById('home');
+                const shoe = homePage.querySelector('.hero-shoe');
+                const textContent = homePage.querySelector('.text-content');
+                
+                const shoeMoveStrength = 30;
+                const textMoveStrength = 15;
+
+                homePage.addEventListener('mousemove', (e) => {
+                    let rect = homePage.getBoundingClientRect();
+                    let x = e.clientX - rect.left;
+                    let y = e.clientY - rect.top;
+                    let xAxis = (x - homePage.offsetWidth / 2) / (homePage.offsetWidth / 2);
+                    let yAxis = (y - homePage.offsetHeight / 2) / (homePage.offsetHeight / 2);
+
+                    shoe.style.transform = `rotateY(${xAxis * shoeMoveStrength}deg) rotateX(${-yAxis * (shoeMoveStrength / 2)}deg) translateZ(50px)`;
+                    textContent.style.transform = `translateX(${xAxis * textMoveStrength}px) translateY(${yAxis * textMoveStrength}px)`;
+                });
+
+                homePage.addEventListener('mouseleave', () => {
+                    shoe.style.transition = 'transform 0.5s ease';
+                    textContent.style.transition = 'transform 0.5s ease';
+                    shoe.style.transform = 'rotateY(0deg) rotateX(0deg) translateZ(0)';
+                    textContent.style.transform = 'translateX(0) translateY(0)';
+                });
+            }
+
+            // --- Contact Form Submission ---
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    alert('شكراً لك! تم استلام رسالتك وسنقوم بالرد قريباً.');
+                    contactForm.reset();
+                });
+            }
+        });
+    </script>
+</body>
+</html>
